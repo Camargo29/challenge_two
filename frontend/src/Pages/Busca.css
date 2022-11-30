@@ -1,0 +1,73 @@
+.container-busca {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(30, 81, 175);
+}
+
+.quadro {
+  background-color: white;
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+}
+
+.quadro > h1 {
+  font-size: 9vh;
+  padding: 0px;
+  border: 0px;
+  align-items: flex-start;
+  margin-block-start: 10px;
+  margin-block-end: 20px;
+  padding-left: 30px;
+  color: rgb(35, 96, 211);
+}
+
+.search {
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pesquisa {
+  padding-left: 30px;
+  width: 25vw;
+  height: 4vh;
+}
+
+button {
+  width: 8vw;
+  height: 4.9vh;
+  background-color: rgb(30, 81, 175);
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+button:hover {
+  background-color: rgb(35, 101, 223);
+}
+
+.lista {
+  width: auto;
+  height: 100%;
+  position: relative;
+  margin: 30px;
+  border: 2px solid rgb(204, 204, 204);
+  padding: 10px;
+  overflow-y: hidden;
+}
+
+.lista:hover {
+  overflow-y: scroll;
+}
+
+.product {
+}

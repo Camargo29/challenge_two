@@ -1,0 +1,43 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.headler h1 {
+  margin: 0 0 10px 0;
+  padding: 20px 10px 20px 50px;
+  font-size: 4rem;
+  font-family: Roboto;
+  color: white;
+  display: flex;
+  justify-content: left;
+  background-color: rgb(29, 101, 236);
+}
+
+.body {
+  margin: 0px 0px 75px 50px;
+  display: flex;
+}
+
+.text {
+  padding-top: 40px;
+  font-family: Roboto;
+  font-weight: 300;
+  color: rgb(35, 96, 211);
+  font-size: large;
+  justify-content: left;
+}
+.text > p {
+  line-height: 2.5rem;
+  letter-spacing: 0.2rem;
+  font-size: 1.8rem;
+}
+
+.imagem {
+  width: 80vw;
+  height: 80vh;
+}
+
+.entrar {
+  padding-top: 50px;
+}
