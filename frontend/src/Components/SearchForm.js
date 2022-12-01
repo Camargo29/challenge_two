@@ -1,15 +1,11 @@
-import { useNavigate } from "react-router-dom";
-
 import { useState } from "react";
 
-const SearchForm = () => {
-  const navigate = useNavigate();
+const SearchForm = ({ callback }) => {
   const [query, setQuery] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    navigate("/Busca?q=" + query);
+    callback(query);
   };
   return (
     <form onSubmit={handleSubmit}>

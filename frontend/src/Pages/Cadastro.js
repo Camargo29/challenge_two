@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Cadastro.css";
-import api from "../backend/configApi";
+import api from "../api/configApi";
 
 const Cadastro = () => {
   const [name, setName] = useState();

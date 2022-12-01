@@ -5,11 +5,19 @@ import * as React from "react";
 
 // componentes MUI
 import Button from "@mui/material/Button";
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
+import Busca from "./Busca";
 
 const Home = () => {
   return (
-    <div className="container">
+    <div
+      className="container"
+      style={{
+        overflow: "hidden",
+        display: "flex",
+        width: "100%",
+      }}
+    >
       <div className="headler">
         <h1>Seja Bem-Vindo</h1>
       </div>
@@ -22,10 +30,11 @@ const Home = () => {
             apagar registros.
           </p>
           <div className="entrar">
-            <Button variant="contained" size="large" href="../Busca">
-              Buscar
-              {/* <Link to="./Busca"     ?????      /> */}
-            </Button>
+            <Link to="/Busca" style={{ textDecoration: "none" }}>
+              <Button variant="contained" size="large">
+                Buscar
+              </Button>
+            </Link>
           </div>
         </div>
         <img src={medico} alt="medico" className="imagem" />

@@ -1,6 +1,12 @@
 .container {
   width: 100vw;
   height: 100vh;
+  flex-direction: column;
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .headler h1 {
@@ -12,11 +18,50 @@
   display: flex;
   justify-content: left;
   background-color: rgb(29, 101, 236);
+  width: 100%;
 }
 
 .body {
-  margin: 0px 0px 75px 50px;
+  padding: 0px 0px 75px 50px;
   display: flex;
+  align-items: center;
+  height: 100%;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+@media (max-width: 930px) {
+  .text > p {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .body {
+    flex-direction: column;
+    padding: 0px 50px 75px 50px;
+  }
+  .text {
+    padding-top: 20px !important;
+    height: 50% !important;
+    width: 100% !important;
+    text-align: center;
+  }
+  .imagem {
+    height: 50% !important;
+    width: fit-content !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .headler h1 {
+    font-size: 2rem;
+    justify-content: center;
+    padding: 20px 10px;
+  }
+  .text > p {
+    line-height: 2rem !important;
+  }
 }
 
 .text {
@@ -24,9 +69,12 @@
   font-family: Roboto;
   font-weight: 300;
   color: rgb(35, 96, 211);
-  font-size: large;
   justify-content: left;
+  width: 50%;
+  flex-shrink: 0;
+  height: 100%;
 }
+
 .text > p {
   line-height: 2.5rem;
   letter-spacing: 0.2rem;
@@ -34,10 +82,13 @@
 }
 
 .imagem {
-  width: 80vw;
-  height: 80vh;
+  width: 50%;
+  height: fit-content;
 }
 
 .entrar {
   padding-top: 50px;
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
 }
