@@ -1,83 +1,170 @@
-import { useState } from "react";
 import "./Cadastro.css";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import api from "../api/configApi";
 
+import dayjs from "dayjs";
+import "dayjs/locale/pt";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Box, Button } from "@mui/material";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import schema from "../Components/Validation";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
+const notify = () => toast("Cadastrado com sucesso.", { icon: "✅" });
+
 const Cadastro = () => {
-  const [name, setName] = useState();
-  const [nasci, setNasci] = useState();
-  const [email, setEmail] = useState();
-  const [ender, setEnder] = useState();
-  const [num, setNum] = useState();
+  const navigate = useNavigate();
+  const [reqDate, setReqDate] = useState(new Date());
 
-  const submitUser = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+    control,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    const postuserdata = {
-      id: "",
-      nome: name,
-      datanacimento: nasci,
-      email: email,
-      endereco: ender,
-      numero: num,
-    };
+  console.log("errors", errors);
+  console.log(watch("datanacimento"));
+  console.log(watch("nome"));
+  console.log("data salva " + reqDate);
 
-    await api
-      .post("/pacientes", postuserdata)
-      .then(function (response) {
-        console.log(response.userdata);
-        alert("cadastrado");
-      })
-      .catch(function (error) {
-        console.error(error.response);
-      });
+  useEffect(() => {
+    setValue("datanacimento", reqDate);
+  }, [reqDate]);
+
+  const onSubmit = async (data, err) => {
+    if (data) {
+      console.log("Deu boa", data);
+      await api
+        .post("/pacientes", data)
+        .then(function (response) {
+          console.log(response.userdata);
+          notify();
+          navigate("/Busca");
+        })
+        .catch(function (error) {
+          console.error(error.response);
+        });
+    } else {
+      console.log("err", err);
+    }
   };
 
   return (
     <div className="container-cadastro">
-      <form onSubmit={submitUser}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        // onSubmit={(e) => {
+        //   console.log("onSubmit entrou aqui", e);
+        //   handleSubmit(onSubmit)(e)
+        //     .catch((error) => {
+        //       console.log("error", error);
+        //     });
+        // }}
+      >
         <div className="quadro-cadastro">
           <h1>Cadastro de paciente</h1>
-          <label htmlFor="name">Nome Completo</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Digite seu nome completo"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <label htmlFor="data">Data de Nascimento</label>
-          <input
-            type="data"
-            name="data"
-            placeholder="dd/mm/aaaa"
-            onChange={(e) => setNasci(e.target.value)}
-          />
-          <label htmlFor="Email">E-mail</label>
-          <input
-            type="email"
-            name="Email"
-            placeholder="seuemail@email.com"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className="endereço">
-            <div className="rua">
-              <label htmlFor="ender">Endereço completo</label>
-              <input
-                type="text"
-                name="ender"
-                placeholder="Rua, Bairro"
-                onChange={(e) => setEnder(e.target.value)}
-              />
+          <Box
+            sx={{
+              "& > :not(style)": {
+                m: 1,
+                marginLeft: "0",
+                marginRight: "0",
+              },
+            }}
+          >
+            <TextField
+              id="outlined-basic"
+              label={!errors.name ? "Digite seu nome" : errors.name.message}
+              variant="outlined"
+              size="medium"
+              fullWidth
+              error={errors.name}
+              {...register("name")}
+            />
+
+            <Controller
+              name="datanacimento"
+              defaultValue={reqDate}
+              control={control}
+              render={({ field: { onChange, ...rest } }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <Stack spacing={2}>
+                    <DesktopDatePicker
+                      className="textFildData"
+                      label="Data de Nascimento"
+                      inputFormat="DD/MM/YYYY"
+                      onChange={(newValue) => {
+                        onChange(newValue);
+                        setReqDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      {...rest}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              )}
+            />
+
+            <TextField
+              id="outlined-basic"
+              label={!errors.email ? "Digite seu Email" : errors.email.message}
+              variant="outlined"
+              size="medium"
+              fullWidth
+              error={errors.email}
+              {...register("email")}
+            />
+
+            <div className="endereço">
+              <div className="rua">
+                <TextField
+                  id="outlined-basic"
+                  label={
+                    !errors.address
+                      ? "Digite seu endereço"
+                      : errors.address.message
+                  }
+                  variant="outlined"
+                  size="medium"
+                  fullWidth
+                  error={errors.address}
+                  {...register("address")}
+                />
+              </div>
+              <div className="numero">
+                <TextField
+                  id="outlined-basic"
+                  label={!errors.number ? "Número" : errors.number.message}
+                  variant="outlined"
+                  size="medium"
+                  fullWidth
+                  error={errors.number}
+                  {...register("number")}
+                />
+              </div>
             </div>
-            <div className="numero">
-              <label htmlFor="numero">Número</label>
-              <input
-                type="number"
-                name="numero"
-                onChange={(e) => setNum(e.target.value)}
-              />
-            </div>
-          </div>
-          <input type="submit" className="btn-enviar" value="enviar" />
+            <Button
+              className="btn-submit"
+              type="submit"
+              variant="contained"
+              sx={{ fontSize: 14, marginLeft: 0, marginBotton: 1, height: 45 }}
+              fullWidth
+            >
+              Enviar
+            </Button>
+          </Box>
         </div>
       </form>
     </div>

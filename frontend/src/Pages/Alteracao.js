@@ -1,11 +1,31 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import "./Cadastro.css";
 import api from "../api/configApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
+import "./Cadastro.css";
+import { Controller, useForm } from "react-hook-form";
+import "dayjs/locale/pt";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Box, Button } from "@mui/material";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import schema from "../Components/Validation";
+import toast from "react-hot-toast";
+
+const notify = () => toast("Usuário apagado com sucesso!", { icon: "✅" });
+const notifyAlt = () =>
+  toast("Alterações realizadas com sucesso!", { icon: "✅" });
+
 const Alteracao = () => {
-  console.log("Render");
+  const navigate = useNavigate();
+  const [reqDate, setReqDate] = useState(new Date());
+
   const [post, setPost] = useState();
 
   const { id } = useParams();
@@ -14,15 +34,13 @@ const Alteracao = () => {
     return "http://localhost:3000/pacientes/" + id;
   }, [id]);
 
-  console.log("post", post);
-
-  // const url = "http://localhost:3000/pacientes/" + id;
-
   // PUXAR USÚARIOS DO SISTEMA E PREENCHER
   useLayoutEffect(() => {
     axios
       .get(url)
-      .then((response) => setPost(response.data))
+      .then((response) => {
+        setPost(response.data);
+      })
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
       });
@@ -36,94 +54,241 @@ const Alteracao = () => {
       .delete("/pacientes/" + id)
       .then(function (response) {
         console.log(response.userdata);
-        alert("apagado");
-        // <Navigate to="/" />; NÃO ESTÁ REDIRECIONANDO PARA A PAGINA DE BUSCA
+        notify();
+        navigate("/Busca");
       })
       .catch(function (error) {
         console.error(error.response);
       });
   };
 
-  if (post) {
-    console.log("post", post);
-  }
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    control,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const submitUser = async (e) => {
-    e.preventDefault();
+  console.log("errors", errors);
+  console.log(watch("datanacimento"));
+  console.log(watch("name"));
+  console.log("data salva " + reqDate);
+
+  useEffect(() => {
+    setValue("datanacimento", reqDate);
+  }, [reqDate]);
+
+  const onSubmit = async (data, err) => {
+    if (data) {
+      await api
+        .patch("/pacientes/" + id, data)
+        .then(function (response) {
+          console.log(response.userdata);
+          notifyAlt();
+          navigate("/Busca");
+        })
+        .catch(function (error) {
+          console.error(error.response);
+        });
+    } else if (err) {
+      console.log(err);
+    }
+    console.log(data);
   };
+  // ATÉ AQUI -----------------------
+
+  // ----------------------------------------------------
+  const nameLabel = useMemo(() => {
+    if (errors?.name) {
+      return errors.name.message;
+    }
+    if (post?.name) {
+      setValue("name", post?.name);
+      // setValue("datanacimento", new Date(post?.birthdate));
+      return "Nome";
+    }
+    return "Carregando...";
+  }, [errors.name, post?.name, setValue]);
+
+  // ----------------------------------------------------
+
+  const birthdateLabel = useMemo(() => {
+    if (errors?.birthdate) {
+      return errors.birthdate.message;
+    }
+    if (post?.birthdate) {
+      setValue("datanacimento", new Date(post?.birthdate));
+      return "Data de Nascimento";
+    }
+    return "Carregando...";
+  }, [errors.birthdate, post?.birthdate, setValue]);
+
+  // ----------------------------------------------------
+
+  const emailLabel = useMemo(() => {
+    if (errors?.email) {
+      return errors.email.message;
+    }
+    if (post?.email) {
+      setValue("email", post?.email);
+      return "Email";
+    }
+    return "Carregando...";
+  }, [errors.email, post?.email, setValue]);
+
+  // ----------------------------------------------------
+
+  const addressLabel = useMemo(() => {
+    if (errors?.address) {
+      return errors.address.message;
+    }
+    if (post?.address) {
+      setValue("address", post?.address);
+      return "Rua";
+    }
+    return "Carregando...";
+  }, [errors.address, post?.address, setValue]);
+
+  // ----------------------------------------------------
+  const numberLabel = useMemo(() => {
+    if (errors?.number) {
+      return errors.number.message;
+    }
+    if (post?.number) {
+      setValue("number", post?.number);
+      return "Número";
+    }
+    return "Carregando...";
+  }, [errors.number, post?.number, setValue]);
+
+  // ----------------------------------------------------
 
   return (
     <div className="container-cadastro">
-      <form onSubmit={submitUser}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="quadro-cadastro">
           <h1>Cadastro de paciente</h1>
-          <label htmlFor="name">Nome Completo</label>
-          {post?.nome ? (
-            <input
-              type="text"
-              name="name"
-              placeholder="Digite seu nome completo"
-              onChange={(e) =>
-                setPost((previous) => ({ ...previous, nome: e.target.value }))
-              }
-              value={post.nome}
-              // defaultValue={"teste"}
-            />
-          ) : (
-            <input
-              type="text"
-              name="name"
-              disabled
-              placeholder="Carregando..."
-            />
-          )}
 
-          <label htmlFor="data">Data de Nascimento</label>
-          {post?.datanacimento ? (
-            <input
-              type="text"
-              name="name"
-              placeholder="Digite seu nome completo"
-              onChange={(e) =>
-                setPost((previous) => ({
-                  ...previous,
-                  datanacimento: e.target.value,
-                }))
-              }
-              value={post.datanacimento}
-              // defaultValue={"teste"}
+          {/* NOVO ----------------- */}
+          <Box
+            sx={{
+              "& > :not(style)": {
+                m: 1,
+                marginLeft: "0",
+                marginRight: "0",
+              },
+            }}
+          >
+            <TextField
+              id="outlined-name"
+              label={nameLabel}
+              variant="outlined"
+              size="medium"
+              fullWidth
+              disabled={!post?.name}
+              error={errors.name}
+              defaultValue="Carregando..."
+              {...register("name")}
             />
-          ) : (
-            <input type="text" name="name" disabled placeholder="00/00/0000" />
-          )}
-          <label htmlFor="Email">E-mail</label>
-          <input
-            type="email"
-            name="Email"
-            placeholder="seuemail@email.com"
-            // onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className="endereço">
-            <div className="rua">
-              <label htmlFor="ender">Endereço completo</label>
-              <input
-                type="text"
-                name="ender"
-                placeholder="Rua, Bairro"
-                // onChange={(e) => setEnder(e.target.value)}
-              />
+
+            <Controller
+              name="datanacimento"
+              defaultValue={reqDate}
+              control={control}
+              render={({ field: { onChange, ...rest } }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <Stack spacing={2}>
+                    <DesktopDatePicker
+                      className="textFildData"
+                      label="Data de Nascimento"
+                      inputFormat="DD/MM/YYYY"
+                      onChange={(newValue) => {
+                        onChange(newValue);
+                        setReqDate(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                      {...rest}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              )}
+            />
+
+            <TextField
+              id="outlined-basic"
+              label={emailLabel}
+              disabled={!post?.name}
+              variant="outlined"
+              size="medium"
+              fullWidth
+              error={errors.email}
+              {...register("email")}
+            />
+
+            <div className="endereço">
+              <div className="rua">
+                <TextField
+                  id="outlined-basic"
+                  label={addressLabel}
+                  disabled={!post?.address}
+                  variant="outlined"
+                  size="medium"
+                  fullWidth
+                  error={errors.address}
+                  {...register("address")}
+                />
+              </div>
+
+              <div className="number">
+                <TextField
+                  id="outlined-basic"
+                  label={numberLabel}
+                  disabled={!post?.number}
+                  variant="outlined"
+                  size="medium"
+                  fullWidth
+                  error={errors.number}
+                  {...register("number")}
+                />
+              </div>
             </div>
-            <div className="numero">
-              <label htmlFor="numero">Número</label>
-              <input
-                type="number"
-                name="numero"
-                // onChange={(e) => setNum(e.target.value)}
-              />
+            <div className="button">
+              <Button
+                className="btn-submit-alt"
+                type="submit"
+                variant="contained"
+                sx={{
+                  fontSize: 14,
+                  marginLeft: 0,
+                  marginBotton: 1,
+                  height: 45,
+                }}
+                fullWidth
+              >
+                Enviar
+              </Button>
+              <Button
+                className="btn-del"
+                type="Button"
+                variant="contained"
+                sx={{
+                  fontSize: 14,
+                  marginLeft: 0,
+                  marginBotton: 1,
+                  height: 45,
+                }}
+                fullWidth
+                onClick={delUser}
+              >
+                Apagar
+              </Button>
             </div>
-          </div>
-          <input type="submit" className="btn-enviar" value="Concluir" />
-          <button onClick={delUser}>Deletar</button>
+          </Box>
+          {/* ATÉ AQUI ------------------- */}
         </div>
       </form>
     </div>

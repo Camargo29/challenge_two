@@ -92,3 +92,9 @@
   bottom: 30px;
   left: 50px;
 }
+
+.btn-entrar {
+  width: 100px !important;
+  height: 40px !important;
+  margin-left: 0px !important;
+}

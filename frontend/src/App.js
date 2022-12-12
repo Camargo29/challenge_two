@@ -6,10 +6,12 @@ import Busca from "./Pages/Busca";
 import Cadastro from "./Pages/Cadastro";
 import NotFound from "./Pages/NotFound";
 import Alteracao from "./Pages/Alteracao";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div className="App">
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />

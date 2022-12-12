@@ -9,8 +9,8 @@
 
 .quadro-cadastro {
   background-color: white;
-  width: 60vw;
-  height: 70vh;
+  width: auto;
+  height: auto;
   display: flex;
   flex-direction: column;
   border-radius: 25px;
@@ -35,16 +35,12 @@
   margin-top: 2px;
 }
 
-.numero > input {
-  width: 15vw;
-  height: 30px;
-  margin-top: 2px;
+.numero {
+  width: 25% !important;
 }
 
-.rua > input {
-  width: 40vw;
-  height: 30px;
-  margin-top: 2px;
+.rua {
+  width: 70% !important;
 }
 
 .quadro-cadastro > p,
@@ -68,8 +64,33 @@
 .btn-enviar {
   margin-block-start: 20px;
   margin-block-end: 25px;
-  width: auto;
+  width: 100%;
   height: 40px;
   margin-left: 0;
   font-size: larger;
+}
+
+.Input-text {
+  width: 100px;
+  height: 40px;
+}
+
+.btn-submit {
+  margin-bottom: 30px !important;
+}
+
+.btn-del {
+  width: 20% !important;
+  background-color: rgb(193, 0, 0) !important;
+}
+
+.btn-submit-alt {
+  width: 79% !important;
+  margin-right: 1% !important;
+  padding: auto;
+}
+
+.button {
+  margin-bottom: 30px !important;
+  margin-top: 17px !important;
 }

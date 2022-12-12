@@ -82,6 +82,7 @@ export const useFetch = (url) => {
       }
     };
     httpRequest();
+    // eslint-disable-next-line
   }, [config, method, url]);
 
   return { data, httpConfig, loading, error };

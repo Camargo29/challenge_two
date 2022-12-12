@@ -6,7 +6,6 @@ import * as React from "react";
 // componentes MUI
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import Busca from "./Busca";
 
 const Home = () => {
   return (
@@ -31,7 +30,11 @@ const Home = () => {
           </p>
           <div className="entrar">
             <Link to="/Busca" style={{ textDecoration: "none" }}>
-              <Button variant="contained" size="large">
+              <Button
+                className="btn-entrar"
+                variant="contained"
+                sx={{ fontSize: 14 }}
+              >
                 Buscar
               </Button>
             </Link>
