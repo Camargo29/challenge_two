@@ -1,9 +1,8 @@
-import medico from "../Assets/medico.png";
 import "./Home.css";
+import medico from "../Assets/medico.png";
 
 import * as React from "react";
 
-// componentes MUI
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 

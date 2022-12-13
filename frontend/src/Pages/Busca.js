@@ -1,19 +1,20 @@
 import "./Busca.css";
-import Button from "@mui/material/Button";
-
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { useFetch } from "../Hooks/useFetch";
-import SearchForm from "../Components/SearchForm";
 import { useEffect, useState } from "react";
+import api from "../api/configApi";
+import SearchForm from "../Components/SearchForm";
 
+import Button from "@mui/material/Button";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import api from "../api/configApi";
 import toast from "react-hot-toast";
 
 const notify = () => toast("Usuário apagado com sucesso!", { icon: "✅" });
 
 const Busca = () => {
+  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
 
   const url =
@@ -27,7 +28,7 @@ const Busca = () => {
 
   useEffect(() => {
     setData(items);
-  }, [items]);
+  }, [items, url]);
 
   function onSearch(value) {
     if (value === "") {
@@ -101,7 +102,6 @@ const Busca = () => {
                             }}
                           />
                         </Link>{" "}
-                        {/* <Delete props={item.id} /> */}
                         <div>
                           <DeleteForeverIcon
                             className="DeleteForeverIcon"
@@ -119,13 +119,14 @@ const Busca = () => {
                                 bgcolor: "rgb(218, 218, 218)",
                               },
                             }}
-                            // a função está aqui por causa do item.id
                             onClick={async () => {
                               await api
                                 .delete("/pacientes/" + item.id)
                                 .then(function (response) {
                                   console.log(response.userdata);
                                   notify();
+                                  navigate("/");
+
                                   // precisa atualizar a lista
                                 })
                                 .catch(function (error) {

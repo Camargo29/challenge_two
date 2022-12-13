@@ -1,26 +1,23 @@
+import "./Cadastro.css";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import "./Cadastro.css";
-import api from "../api/configApi";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-
-import "./Cadastro.css";
 import { Controller, useForm } from "react-hook-form";
-import "dayjs/locale/pt";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Box, Button } from "@mui/material";
-
+import axios from "axios";
+import api from "../api/configApi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../Components/Validation";
 import toast from "react-hot-toast";
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Box, Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+
 const notify = () => toast("Usuário apagado com sucesso!", { icon: "✅" });
 const notifyAlt = () =>
-  toast("Alterações realizadas com sucesso!", { icon: "✅" });
+  toast("Alteração realizada com sucesso!", { icon: "✅" });
 
 const Alteracao = () => {
   const navigate = useNavigate();
@@ -34,7 +31,6 @@ const Alteracao = () => {
     return "http://localhost:3000/pacientes/" + id;
   }, [id]);
 
-  // PUXAR USÚARIOS DO SISTEMA E PREENCHER
   useLayoutEffect(() => {
     axios
       .get(url)
@@ -44,16 +40,15 @@ const Alteracao = () => {
       .catch((err) => {
         console.error("ops! ocorreu um erro" + err);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // apagar usuário
   const delUser = async (e) => {
     e.preventDefault();
 
     await api
       .delete("/pacientes/" + id)
       .then(function (response) {
-        console.log(response.userdata);
         notify();
         navigate("/Busca");
       })
@@ -66,20 +61,15 @@ const Alteracao = () => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
     control,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  console.log("errors", errors);
-  console.log(watch("datanacimento"));
-  console.log(watch("name"));
-  console.log("data salva " + reqDate);
-
   useEffect(() => {
     setValue("datanacimento", reqDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reqDate]);
 
   const onSubmit = async (data, err) => {
@@ -87,7 +77,6 @@ const Alteracao = () => {
       await api
         .patch("/pacientes/" + id, data)
         .then(function (response) {
-          console.log(response.userdata);
           notifyAlt();
           navigate("/Busca");
         })
@@ -99,35 +88,17 @@ const Alteracao = () => {
     }
     console.log(data);
   };
-  // ATÉ AQUI -----------------------
 
-  // ----------------------------------------------------
   const nameLabel = useMemo(() => {
     if (errors?.name) {
       return errors.name.message;
     }
     if (post?.name) {
       setValue("name", post?.name);
-      // setValue("datanacimento", new Date(post?.birthdate));
       return "Nome";
     }
     return "Carregando...";
   }, [errors.name, post?.name, setValue]);
-
-  // ----------------------------------------------------
-
-  const birthdateLabel = useMemo(() => {
-    if (errors?.birthdate) {
-      return errors.birthdate.message;
-    }
-    if (post?.birthdate) {
-      setValue("datanacimento", new Date(post?.birthdate));
-      return "Data de Nascimento";
-    }
-    return "Carregando...";
-  }, [errors.birthdate, post?.birthdate, setValue]);
-
-  // ----------------------------------------------------
 
   const emailLabel = useMemo(() => {
     if (errors?.email) {
@@ -140,8 +111,6 @@ const Alteracao = () => {
     return "Carregando...";
   }, [errors.email, post?.email, setValue]);
 
-  // ----------------------------------------------------
-
   const addressLabel = useMemo(() => {
     if (errors?.address) {
       return errors.address.message;
@@ -153,7 +122,6 @@ const Alteracao = () => {
     return "Carregando...";
   }, [errors.address, post?.address, setValue]);
 
-  // ----------------------------------------------------
   const numberLabel = useMemo(() => {
     if (errors?.number) {
       return errors.number.message;
@@ -165,15 +133,12 @@ const Alteracao = () => {
     return "Carregando...";
   }, [errors.number, post?.number, setValue]);
 
-  // ----------------------------------------------------
-
   return (
     <div className="container-cadastro">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="quadro-cadastro">
           <h1>Cadastro de paciente</h1>
 
-          {/* NOVO ----------------- */}
           <Box
             sx={{
               "& > :not(style)": {
@@ -288,7 +253,6 @@ const Alteracao = () => {
               </Button>
             </div>
           </Box>
-          {/* ATÉ AQUI ------------------- */}
         </div>
       </form>
     </div>

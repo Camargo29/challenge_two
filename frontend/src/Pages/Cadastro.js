@@ -1,21 +1,18 @@
 import "./Cadastro.css";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import api from "../api/configApi";
+import { yupResolver } from "@hookform/resolvers/yup";
+import schema from "../Components/Validation";
+import toast from "react-hot-toast";
 
-import dayjs from "dayjs";
-import "dayjs/locale/pt";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { Box, Button } from "@mui/material";
-
-import { yupResolver } from "@hookform/resolvers/yup";
-import schema from "../Components/Validation";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 
 const notify = () => toast("Cadastrado com sucesso.", { icon: "✅" });
 
@@ -26,7 +23,6 @@ const Cadastro = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
     control,
@@ -34,22 +30,16 @@ const Cadastro = () => {
     resolver: yupResolver(schema),
   });
 
-  console.log("errors", errors);
-  console.log(watch("datanacimento"));
-  console.log(watch("nome"));
-  console.log("data salva " + reqDate);
-
   useEffect(() => {
     setValue("datanacimento", reqDate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reqDate]);
 
   const onSubmit = async (data, err) => {
     if (data) {
-      console.log("Deu boa", data);
       await api
         .post("/pacientes", data)
         .then(function (response) {
-          console.log(response.userdata);
           notify();
           navigate("/Busca");
         })
@@ -63,16 +53,7 @@ const Cadastro = () => {
 
   return (
     <div className="container-cadastro">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        // onSubmit={(e) => {
-        //   console.log("onSubmit entrou aqui", e);
-        //   handleSubmit(onSubmit)(e)
-        //     .catch((error) => {
-        //       console.log("error", error);
-        //     });
-        // }}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="quadro-cadastro">
           <h1>Cadastro de paciente</h1>
           <Box

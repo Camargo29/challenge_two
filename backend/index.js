@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Funcionando!!" });
 });
 
-//inicia o servidor
 app.listen(port);
 
 function execSQLQuery(sqlQry, res, array = true) {
@@ -47,7 +46,6 @@ function execSQLQuery(sqlQry, res, array = true) {
   });
 }
 
-// Buscar clientes
 app.get("/pacientes/:id", (req, res) => {
   let filter = "";
   if (req.params.id) {
@@ -56,12 +54,10 @@ app.get("/pacientes/:id", (req, res) => {
   execSQLQuery("SELECT * FROM pacientes" + filter, res, false);
 });
 
-// Buscar clientes
 app.get("/pacientes", (req, res) => {
   execSQLQuery("SELECT * FROM pacientes ORDER BY name ", res);
 });
 
-// Excluir cliente
 app.delete("/pacientes/:id", (req, res) => {
   execSQLQuery(
     "DELETE FROM pacientes WHERE id=" + parseInt(req.params.id),
@@ -69,7 +65,6 @@ app.delete("/pacientes/:id", (req, res) => {
   );
 });
 
-// Adicionar clietes
 app.post("/pacientes", (req, res) => {
   const name = req.body.name;
   const datanacimento = req.body.datanacimento;
@@ -83,7 +78,6 @@ app.post("/pacientes", (req, res) => {
   );
 });
 
-// Atualizar clientes
 app.patch("/pacientes/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const name = req.body.name;
