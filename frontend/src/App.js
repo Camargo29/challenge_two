@@ -2,10 +2,10 @@ import "./App.css";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Busca from "./Pages/Busca";
-import Cadastro from "./Pages/Cadastro";
+import Read from "./Pages/Read";
+import Create from "./Pages/Create";
 import NotFound from "./Pages/NotFound";
-import Alteracao from "./Pages/Alteracao";
+import Update from "./Pages/Update";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -16,10 +16,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
-          <Route path="/Busca" element={<Busca />} />
-          <Route path="/Busca/:id" element={<Busca />} />
-          <Route path="/Cadastro" element={<Cadastro />} />
-          <Route path="/Alteracao/:id" element={<Alteracao />} />
+          <Route path="/Read" element={<Read />} />
+          <Route path="/Read/:id" element={<Read />} />
+          <Route path="/Create" element={<Create />} />
+          <Route path="/Update/:id" element={<Update />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

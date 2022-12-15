@@ -1,0 +1,96 @@
+.container-create {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(30, 81, 175);
+}
+
+.quadro-create {
+  background-color: white;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  padding: 0 50px 0 50px;
+}
+
+.quadro-create > h1 {
+  color: rgb(35, 96, 211);
+  font-size: 9vh;
+  padding: 0px;
+  border: 0px;
+  margin-block-start: 10px;
+  margin-block-end: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.quadro-create > input {
+  width: auto;
+  height: 30px;
+  margin-top: 2px;
+}
+
+.numero {
+  width: 25% !important;
+}
+
+.rua {
+  width: 70% !important;
+}
+
+.quadro-create > p,
+.rua > p,
+.numero > p {
+  font-size: large;
+  color: rgb(30, 81, 175);
+  font-weight: 600;
+  margin-block-end: 2px;
+}
+
+.endereço {
+  display: flex;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn-enviar {
+  margin-block-start: 20px;
+  margin-block-end: 25px;
+  width: 100%;
+  height: 40px;
+  margin-left: 0;
+  font-size: larger;
+}
+
+.Input-text {
+  width: 100px;
+  height: 40px;
+}
+
+.btn-submit {
+  margin-bottom: 30px !important;
+}
+
+.btn-del {
+  width: 20% !important;
+  background-color: rgb(193, 0, 0) !important;
+}
+
+.btn-submit-alt {
+  width: 79% !important;
+  margin-right: 1% !important;
+  padding: auto;
+}
+
+.button {
+  margin-bottom: 30px !important;
+  margin-top: 17px !important;
+}

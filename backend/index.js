@@ -25,7 +25,7 @@ function execSQLQuery(sqlQry, res, array = true) {
   const password = process.env.ENVpassword;
   const connection = mysql.createConnection({
     host: host,
-    port: 3308,
+    port: 3307,
     user: "root",
     password: password,
     database: "testapp",

@@ -22,7 +22,7 @@ const SearchForm = ({ callback }) => {
       />
       <Button
         type="submit"
-        className="btn-cadastro"
+        className="btn-create"
         variant="contained"
         sx={{ fontSize: 14 }}
       >

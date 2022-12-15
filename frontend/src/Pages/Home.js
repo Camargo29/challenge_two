@@ -28,7 +28,7 @@ const Home = () => {
             apagar registros.
           </p>
           <div className="entrar">
-            <Link to="/Busca" style={{ textDecoration: "none" }}>
+            <Link to="/Read" style={{ textDecoration: "none" }}>
               <Button
                 className="btn-entrar"
                 variant="contained"
