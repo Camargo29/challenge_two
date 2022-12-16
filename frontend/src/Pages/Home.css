@@ -53,17 +53,6 @@
   }
 }
 
-@media (max-width: 500px) {
-  .headler h1 {
-    font-size: 2rem;
-    justify-content: center;
-    padding: 20px 10px;
-  }
-  .text > p {
-    line-height: 2rem !important;
-  }
-}
-
 .text {
   padding-top: 40px;
   font-family: Roboto;
@@ -94,7 +83,21 @@
 }
 
 .btn-entrar {
-  width: 100px !important;
+  width: 100% !important;
   height: 40px !important;
   margin-left: 0px !important;
+}
+
+@media (max-width: 500px) {
+  .headler h1 {
+    font-size: 2rem;
+    justify-content: center;
+    padding: 20px 10px;
+  }
+  .text > p {
+    line-height: 27px !important;
+  }
+  .entrar {
+    width: 75% !important;
+  }
 }

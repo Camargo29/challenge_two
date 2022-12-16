@@ -179,6 +179,12 @@ table :hover {
     font-size: 5px;
     overflow: visible;
   }
+
+  .btn-create {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 5px !important;
+  }
 }
 
 .link-detail {

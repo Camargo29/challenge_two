@@ -124,7 +124,7 @@ const Create = () => {
                   {...register("address")}
                 />
               </div>
-              <div className="numero">
+              <div className="number">
                 <TextField
                   id="outlined-basic"
                   label={!errors.number ? "Número" : errors.number.message}

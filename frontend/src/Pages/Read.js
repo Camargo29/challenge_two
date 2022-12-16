@@ -31,8 +31,9 @@ const Read = () => {
   }, [items, url]);
 
   function onSearch(value) {
-    if (value === "") {
+    if (value === "" || value === undefined) {
       setData(items);
+      return;
     }
     const previous = items;
     const filter = previous.filter((item) => {
@@ -54,7 +55,10 @@ const Read = () => {
           <div className="input-btn-read">
             <SearchForm callback={onSearch} />
           </div>
-          <Link to="/Create" style={{ textDecoration: "none" }}>
+          <Link
+            to="/Create"
+            style={{ textDecoration: "none", width: "100% !importanted" }}
+          >
             <Button
               className="btn-create"
               variant="contained"
