@@ -5,6 +5,7 @@ import * as React from "react";
 
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import api from "../api/configApi";
 
 const Home = () => {
   return (
@@ -33,6 +34,16 @@ const Home = () => {
                 className="btn-entrar"
                 variant="contained"
                 sx={{ fontSize: 14 }}
+                onClick={async () => {
+                  await api
+                    .post("/")
+                    .then(function (response) {
+                      console.log(response.userdata);
+                    })
+                    .catch(function (error) {
+                      console.error(error.response);
+                    });
+                }}
               >
                 Buscar
               </Button>
