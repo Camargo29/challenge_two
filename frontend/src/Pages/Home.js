@@ -37,9 +37,7 @@ const Home = () => {
                 onClick={async () => {
                   await api
                     .post("/")
-                    .then(function (response) {
-                      console.log(response.userdata);
-                    })
+                    .then(function (response) {})
                     .catch(function (error) {
                       console.error(error.response);
                     });

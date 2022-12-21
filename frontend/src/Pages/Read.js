@@ -128,7 +128,6 @@ const Read = () => {
                               await api
                                 .delete("/pacientes/" + item.id)
                                 .then(function (response) {
-                                  console.log(response.userdata);
                                   notify();
                                   navigate("/");
                                 })
